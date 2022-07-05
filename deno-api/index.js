@@ -1,5 +1,32 @@
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 import PouchDB from 'https://deno.land/x/pouchdb_deno@v1.0.0-PouchDB+7.2.2/modules/pouchdb/mod.ts'
+const newLocal = `<html>
+    <head>
+    <script type="text/javascript" src="../fn.js"></script>
+    </head>
+    
+    <body>
+    <script>
+    function getPos() {
+        var p = document.getElementById('test');
+        var geo;
+        navigator.geolocation.getCurrentPosition(function(a) {
+            console.log(a);
+            geo = a;
+            var newElement = document.createElement('div');
+            newElement.setAttribute('id', test);
+            newElement.innerHTML = a.coords.latitude +  "," + a.coords.longitude;
+            p.append(newElement);
+        })
+    }
+    </script>
+    <div id="test">
+      <h1>Example</h1>
+      <button style={width:100px} onclick="getPos()">
+    </div>
+    </body>
+    
+  </html>`;
 /*
 // Use the 'idb' afapter for IndexedDB and persistence to disk.
 const db = new PouchDB('mydb', { adapter: 'idb' })
@@ -25,15 +52,7 @@ db.get("483ba335-027b-483f-9ad9-12aebc2149f4").then(console.log);
 
 serve((_req) => {
   return new Response(
-    `<html>
-    <head>
-    
-    </head>
-    <body>
-      <h1>Example</h1>
-      <button style={width:100px} onclick="navigator.geolocation.getCurrentPosition((a)=>console.log(a))">
-    </body>
-  </html>`,
+    newLocal,
   {
     headers: {
       "content-type": "text/html; charset=utf-8",
